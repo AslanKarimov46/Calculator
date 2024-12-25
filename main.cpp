@@ -7,7 +7,21 @@ void yourself(int a, int b, char op){
 
 
 int main(){
-	double a;
+	std::string str, op;
+	std::vector<double> numbers;
+	std::getline(std::cin, str);
+	//std::cout<<str<<"\n";
+	Spaceless(str);
+	//std::cout<<str<<"\n";
+
+	if(isNumeric_1_dot(str))
+		std::cout<<"да\n";
+	else
+		std::cout<<"нет\n";
+
+	//std::cout<<str<<"\n";
+
+	/*double a;
 	std::string op;
 	std::vector<double> numbers;
 	std::string operations;
@@ -50,7 +64,7 @@ int main(){
 		std::cout<<i<<" ";	
 	std::cout<<"\n";	
 
-	std::cout<<func(numbers, operations)<<"\n";
+	std::cout<<func(numbers, operations)<<"\n";*/
 
 return 0;	
 }
