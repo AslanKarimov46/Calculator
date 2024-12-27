@@ -7,64 +7,33 @@ void yourself(int a, int b, char op){
 
 
 int main(){
-	std::string str, op;
-	std::vector<double> numbers;
-	std::getline(std::cin, str);
-	//std::cout<<str<<"\n";
+	//std::vector<double> numbers;
+	//std::getline(std::cin, str);
+	/*//std::cout<<str<<"\n";
 	Spaceless(str);
 	//std::cout<<str<<"\n";
 
 	if(isNumeric_1_dot(str))
 		std::cout<<"да\n";
 	else
-		std::cout<<"нет\n";
-
-	//std::cout<<str<<"\n";
-
-	/*double a;
-	std::string op;
+		std::cout<<"нет\n";*/
+	
+	std::string str=".123+-789/-4.6546564+-4984*-4984+98498", op;
 	std::vector<double> numbers;
-	std::string operations;
-	
-	while(std::cin>>a>>op){
-		numbers.push_back(a);
-		operations.append(op);
-	}
-    std::cin>>a;
-    numbers.push_back(a);
+
+	str_to_(str, op, numbers);
+
+	for(auto a: op)
+		std::cout<<a<<' ';
 	std::cout<<"\n";
-	
-	for(auto i: numbers)
-		std::cout<<i<<" ";
-	std::cout<<"\n";
-	
-	for(auto i: operations)
-		std::cout<<i<<" ";
+	for(auto a: numbers)
+		std::cout<<a<<' ';
 	std::cout<<"\n";
 
-	mult(numbers, operations);
-	std::cout<<"\n";	
-	
-	for(auto i: numbers)
-		std::cout<<i<<" ";
-	std::cout<<"\n";		
-	
-	for(auto i: operations)
-		std::cout<<i<<" ";	
-	std::cout<<"\n";
+/*
+	std::vector<std::string> result;
+	boost::split(result, str, boost::is_any_of("+/*-"));*/
 
-	dev(numbers, operations);
-	std::cout<<"\n";	
-	
-	for(auto i: numbers)
-		std::cout<<i<<" ";
-	std::cout<<"\n";		
-	
-	for(auto i: operations)
-		std::cout<<i<<" ";	
-	std::cout<<"\n";	
-
-	std::cout<<func(numbers, operations)<<"\n";*/
 
 return 0;	
 }
