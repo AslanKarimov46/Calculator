@@ -93,56 +93,11 @@ bool isNumeric_1_dot(const std::string& str){
     return true;
 }
 
-
-/*std::vector<double> GetNumbers(const std::string& str){
-    std::vector<double> result;
-    std::string str1=str;
-    std::vector<std::pair<char, int>> Operations=GetOperationsFromStr(str);
-
-    int i=1;
-    while(i!=str1.size()){
-        if( str1[i]=='+' || str1[i]=='-' || str1[i]=='*' || str1[i]=='/' ){
-            str1[i]=' ';
-            if(str1[i+1]=='-'){
-                i++;
-            }
-        }
-        i++;
-    }
-
-    int j=0; 
-    std::string temp;
-
-
-    int LastIndex=0;
-    for(int i=0; i<str1.size(); i++){
-
-        if(str1[i]==' '){
-            if(isNumeric_1_dot(str1.substr(LastIndex, i-LastIndex))){
-                std::cout<<"##### "<<str1.substr(LastIndex, i-LastIndex)<<"|"<<"\n";
-                result.push_back(std::stod(str1.substr(LastIndex, LastIndex+i)));
-                LastIndex=i+1;        
-            }else{
-                throw std::invalid_argument("Некорректное значение в строке: " + str1.substr(LastIndex, i - LastIndex));
-            }
-        }
-    }
-
-    if(isNumeric_1_dot(str1.substr(LastIndex+1, str1.size()-1)))
-        result.push_back(std::stod(str1.substr(LastIndex+1, str1.size()-1)));
-    else
-        throw std::invalid_argument("Некорректное значение в строке: " + str1.substr(LastIndex, str1.size() - LastIndex));
-    
-    return result;
-
-}*/
-
 std::vector<double> GetNumbers(const std::string& str) {
     std::vector<double> result;
     std::string str1 = str;
 
-    // Удаление операций с заменой на пробелы
-    for (size_t i = 1; i < str1.size(); ++i) {
+    for(size_t i = 1; i < str1.size(); ++i) {
         if (str1[i] == '+' || str1[i] == '-' || str1[i] == '*' || str1[i] == '/') {
             str1[i] = ' ';
             if (i + 1 < str1.size() && str1[i + 1] == '-') {
@@ -150,20 +105,17 @@ std::vector<double> GetNumbers(const std::string& str) {
             }
         }
     }
-
     size_t LastIndex = 0;
-
     for (size_t i = 0; i <= str1.size(); ++i) {
         if (i == str1.size() || str1[i] == ' ') {
             if (i > LastIndex) {
                 std::string segment = str1.substr(LastIndex, i - LastIndex);
                 if (isNumeric_1_dot(segment)) {
                     result.push_back(std::stod(segment));
-                } else {
+                }else
                     throw std::invalid_argument("Некорректное значение в строке: " + segment);
-                }
             }
-            LastIndex = i + 1; // Сдвиг на следующий символ
+            LastIndex = i + 1;
         }
     }
 
@@ -186,11 +138,8 @@ void str_to_(const std::string& str, std::string& op, std::vector<double>& numbe
         i++;
     }
 
-    /*for(int i=0; i!=Operations.size(); i++)
-        std::cout<<Operations[i].first<<" "<<Operations[i].second<<"\n";*/
-
     for(int i=1; i!=Operations.size(); i++){
-        if(Operations[i].second==(Operations[i-1].second-1)){
+        if( Operations[i].second==(Operations[i-1].second-1) ){
             std::cout<<"Слишком много операций\n";
             break;
         }
@@ -200,53 +149,7 @@ void str_to_(const std::string& str, std::string& op, std::vector<double>& numbe
         op+=Operations[i].first;
     }
 
+
     numbers=GetNumbers(str1);
-
-
-    /*for(int i=0; i!=Operations.size(); i++){
-        std::cout<<Operations[i].first<<' '<<Operations[i].second<<" ";
-    }
-    std::cout<<"\n";*/
-
 }
-
-/*void str_to_(const std::string& str, std::string& op, std::vector<double>& numbers) {
-    op.clear();
-    numbers.clear();
-
-    std::string str1 = str;
-    Spaceless(str1); // Удаляем пробелы из строки
-    std::vector<std::pair<char, int>> Operations = GetOperationsFromStr(str1);
-
-    // Удаляем лишние знаки "-" после других операций
-    for (size_t i = 0; i < Operations.size() - 1; ) {
-        if ((Operations[i].second + 1) == Operations[i + 1].second && Operations[i + 1].first == '-') {
-            Operations.erase(Operations.begin() + i + 1);
-        } else {
-            ++i;
-        }
-    }
-
-    // Проверка на слишком много операций подряд
-    for (size_t i = 1; i < Operations.size(); ++i) {
-        if (Operations[i].second == (Operations[i - 1].second - 1)) {
-            throw std::invalid_argument("Ошибка: Слишком много операций подряд в строке.");
-        }
-    }
-    if(std::isdigit(Operations[Operations.size()-1].second) || Operations[Operations.size()-1].second=='.')
-        throw std::invalid_argument("Строка не моет заканчиваться операцией.");
-
-    // Собираем строку операций
-    for (const auto& operation : Operations) {
-        op += operation.first;
-    }
-
-    // Получаем числа из строки
-    try {
-        numbers = GetNumbers(str1);
-    } catch (const std::exception& e) {
-        std::cerr << "Ошибка при разборе чисел: " << e.what() << "\n";
-        throw; // Перепросить исключение, чтобы вызвать могла обработать
-    }
-}*/
 
