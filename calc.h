@@ -14,3 +14,5 @@ std::vector<std::pair<char, int>> GetOperationsFromStr(const std::string& str);
 bool isNumeric_1_dot(const std::string& str);
 std::vector<double> GetNumbers(const std::string&str);
 std::string GetOperations(const std::string& str);
+template <typename T>
+bool operator==(const std::vector<T>& vec1, const std::vector<T>& vec2);

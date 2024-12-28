@@ -2,6 +2,18 @@
 // 1 + 3 + 789 * 78 - 56464 * 879 *4984 *84 
 // 1 3 789 78 56464 879 4984 84
 //  +  +  *  -     *   *    *
+template <typename T>
+bool operator==(const std::vector<T>& vec1, const std::vector<T>& vec2){
+    if(vec1.size()!=vec2.size()){
+        return false;
+    }
+    for(int i = 0;i<vec1.size();++i){
+        if(vec1[i]!=vec2[i]){
+            return false;
+        }
+    }
+    return true;
+}
 
 void mult(std::vector<double>& numbers, std::string& operations){
     for(size_t i=0; i<operations.size();){
@@ -83,8 +95,14 @@ std::vector<std::pair<char, int>> GetOperationsFromStr(const std::string& str){
 bool isNumeric_1_dot(const std::string& str){
     bool result=false;
     int amount_of_dots=0;
-    if( ( str[0]<='9'||str[0]>='0' ) || str[0]=='.' || str[0]=='-')
-       result=true ;
+
+    if( ( str[0]<='9'&& str[0]>='0' ) || str[0]=='.' || str[0]=='-'){
+        if(str[0]=='.')
+            amount_of_dots=1;
+        result=true ;
+    }else
+        return false;
+
     for(size_t i=1; i<str.size(); i++){
         if(str[i]=='.'){
             amount_of_dots++;
@@ -133,34 +151,14 @@ std::string GetOperations(const std::string& str){
         if( ( (Operations[j].second+2) == (Operations[j+1].second+1) ) && ( (Operations[j+1].second+1) == Operations[j+2].second ) )
             throw std::invalid_argument("Слишком много операций");
     }
-    
-    /*if( (Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9') || 
-        Operations[Operations.size()-1].second!='.' ){
-        std::cout<<Operations[Operations.size()-1].second<<"\n";
-        throw std::invalid_argument("Строка заканчивается операцией");
-    }*/
 
-    if( (Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9')  && 
-        Operations[Operations.size()-1].second!='.' ){
-        /*if((Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9'))
-            std::cout<<"#########\n";
-        if(Operations[Operations.size()-1].second!='.')
-            std::cout<<"~~~~~~~~~~\n";*/
+    int size=Operations.size();
+    if( Operations[size-1].second==str.size()-1 ){
 
-        std::cout<<Operations[Operations.size()-1].second<<"\n";
+
+        std::cout<<Operations[size-1].first<<"\n";
         throw std::invalid_argument("Строка заканчивается операцией");
     }
-    else if( (Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9')  && 
-        Operations[Operations.size()-1].second!='.'  && 
-        (Operations[Operations.size()-2].second<'0' || Operations[Operations.size()-2].second>'9')  && 
-        Operations[Operations.size()-2].second!='.' )
-        throw std::invalid_argument("Последние 2 символа в строке операции");
-
-
-    
-
-
-
 
     int i=0;
     while( i!=Operations.size()-1 ){

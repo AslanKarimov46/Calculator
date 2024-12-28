@@ -7,13 +7,14 @@ void yourself(int a, int b, char op){
 
 
 int main(){
-	//std::vector<double> numbers;
-	//std::getline(std::cin, str);
-	//std::cout<<str<<"\n";
+	std::string str, operations;
+	std::getline(std::cin, str);
 
-	std::string str="-2-2-", operations="+-/+/+";
 	Spaceless(str);
-	std::vector<double> numbers{12, 13, 10, 5, 3, 2, 6};
+	std::vector<double> numbers;
+	for(char i: str)
+		std::cout<<i;
+	std::cout<<'\n';
 
 	bool operationsSuccess = true, numbersSuccess = true;
 
@@ -35,28 +36,19 @@ int main(){
     	std::cout << "Unhandled exception occurred.\n";
 	}
 
-	
 	if( numbersSuccess==true && operationsSuccess==true ){
-		for (char i : operations)
+		/*for (char i : operations)
            	std::cout << i << ' ';
 	    std::cout << "\n";
 	    for (double a : numbers)
             std::cout << a << " ";
-	    std::cout << "\n";
+	    std::cout << "\n";*/
 	    try{
 	    	std::cout<<func(numbers, operations);
 	    }catch(const std::runtime_error& ex){
 	    	std::cout << ex.what() << "\n";
 	    }
 	}
-
-	/*try{
-		dev(numbers, operations);
-	}catch(const std::runtime_error& ex){
-		std::cout<<ex.what()<<"\n";
-	}*/
-
-
 
 return 0;	
 }
