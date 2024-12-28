@@ -14,14 +14,18 @@ void mult(std::vector<double>& numbers, std::string& operations){
     }
 }
 
-void dev(std::vector<double>& numbers, std::string& operations){
-    for(size_t i=0; i<operations.size();){
-        if(operations[i]=='/'){
-            numbers[i]/=numbers[i + 1];
-            numbers.erase(numbers.begin()+i+1);
-            operations.erase(operations.begin()+i);
-        }else
+void dev(std::vector<double>& numbers, std::string& operations) {
+    for (size_t i = 0; i < operations.size();) {
+        if (operations[i] == '/') {
+            if (numbers[i + 1] == 0) { // Проверяем деление на 0
+                throw std::runtime_error("Division by zero detected");
+            }
+            numbers[i] /= numbers[i + 1];
+            numbers.erase(numbers.begin() + i + 1);
+            operations.erase(operations.begin() + i);
+        } else {
             ++i;
+        }
     }
 }
 
@@ -99,7 +103,7 @@ std::vector<double> GetNumbers(const std::string& str) {
 
     for(size_t i = 1; i < str1.size(); ++i) {
         if (str1[i] == '+' || str1[i] == '-' || str1[i] == '*' || str1[i] == '/') {
-            str1[i] = ' ';
+            str1[i] = 't';
             if (i + 1 < str1.size() && str1[i + 1] == '-') {
                 ++i;
             }
@@ -107,7 +111,7 @@ std::vector<double> GetNumbers(const std::string& str) {
     }
     size_t LastIndex = 0;
     for (size_t i = 0; i <= str1.size(); ++i) {
-        if (i == str1.size() || str1[i] == ' ') {
+        if (i == str1.size() || str1[i] == 't') {
             if (i > LastIndex) {
                 std::string segment = str1.substr(LastIndex, i - LastIndex);
                 if (isNumeric_1_dot(segment)) {
@@ -122,34 +126,65 @@ std::vector<double> GetNumbers(const std::string& str) {
     return result;
 }
 
+std::string GetOperations(const std::string& str){
+    std::vector<std::pair<char, int>> Operations=GetOperationsFromStr(str);
+    // Пройдемся по массиву и удалим знаки отр чисел
+    for(int j=0; j<Operations.size()-2; j++){
+        if( ( (Operations[j].second+2) == (Operations[j+1].second+1) ) && ( (Operations[j+1].second+1) == Operations[j+2].second ) )
+            throw std::invalid_argument("Слишком много операций");
+    }
+    
+    /*if( (Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9') || 
+        Operations[Operations.size()-1].second!='.' ){
+        std::cout<<Operations[Operations.size()-1].second<<"\n";
+        throw std::invalid_argument("Строка заканчивается операцией");
+    }*/
 
-void str_to_(const std::string& str, std::string& op, std::vector<double>& numbers) {
-    op.clear();
-    numbers.clear();
+    if( (Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9')  && 
+        Operations[Operations.size()-1].second!='.' ){
+        /*if((Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9'))
+            std::cout<<"#########\n";
+        if(Operations[Operations.size()-1].second!='.')
+            std::cout<<"~~~~~~~~~~\n";*/
 
-    std::string str1=str;
-    Spaceless(str1);
-    std::vector<std::pair<char, int>> Operations=GetOperationsFromStr(str1);
+        std::cout<<Operations[Operations.size()-1].second<<"\n";
+        throw std::invalid_argument("Строка заканчивается операцией");
+    }
+    else if( (Operations[Operations.size()-1].second<'0' || Operations[Operations.size()-1].second>'9')  && 
+        Operations[Operations.size()-1].second!='.'  && 
+        (Operations[Operations.size()-2].second<'0' || Operations[Operations.size()-2].second>'9')  && 
+        Operations[Operations.size()-2].second!='.' )
+        throw std::invalid_argument("Последние 2 символа в строке операции");
+
+
+    
+
+
+
+
     int i=0;
-    while(i<Operations.size()-1){
-        if( ((Operations[i].second+1)==Operations[i+1].second) && Operations[i+1].first=='-' ){
+    while( i!=Operations.size()-1 ){
+        if( ((Operations[i].second+1) == Operations[i+1].second) && Operations[i+1].first=='-' ){
             Operations.erase(Operations.begin()+i+1);
+            continue;
         }
         i++;
     }
 
-    for(int i=1; i!=Operations.size(); i++){
-        if( Operations[i].second==(Operations[i-1].second-1) ){
-            std::cout<<"Слишком много операций\n";
-            break;
-        }
+    for(int j=0; j<Operations.size()-1; j++){
+        if( Operations[j].second+1 == Operations[j+1].second )
+            throw std::invalid_argument("Слишком много операций");
     }
-
-    for(int i=0; i!=Operations.size(); i++){
-        op+=Operations[i].first;
+    std::string result;
+    for(int j=0; j!=Operations.size(); j++){
+        result.push_back(Operations[j].first);
     }
-
-
-    numbers=GetNumbers(str1);
+    return result;
 }
 
+void str_to_(const std::string& str, std::string& op, std::vector<double>& numbers) {
+    op.clear();
+    numbers.clear();
+    op=GetOperations(str);
+    numbers=GetNumbers(str);
+}

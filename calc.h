@@ -12,5 +12,5 @@ void str_to_(const std::string& str, std::string& op, std::vector<double>& numbe
 void Spaceless(std::string& str);
 std::vector<std::pair<char, int>> GetOperationsFromStr(const std::string& str);
 bool isNumeric_1_dot(const std::string& str);
-void removeSpacesFromBegEnd(std::string& str);
 std::vector<double> GetNumbers(const std::string&str);
+std::string GetOperations(const std::string& str);
