@@ -11,10 +11,6 @@ int main(){
 	std::getline(std::cin, str);
 
 	Spaceless(str);
-	std::vector<double> numbers;
-	for(char i: str)
-		std::cout<<i;
-	std::cout<<'\n';
 
 	bool operationsSuccess = true, numbersSuccess = true;
 
@@ -37,12 +33,6 @@ int main(){
 	}
 
 	if( numbersSuccess==true && operationsSuccess==true ){
-		/*for (char i : operations)
-           	std::cout << i << ' ';
-	    std::cout << "\n";
-	    for (double a : numbers)
-            std::cout << a << " ";
-	    std::cout << "\n";*/
 	    try{
 	    	std::cout<<func(numbers, operations);
 	    }catch(const std::runtime_error& ex){
